@@ -1,0 +1,5 @@
+python==3.9.16
+cohere
+pinecone
+spacy
+tiktoken
