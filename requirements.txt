@@ -3,3 +3,4 @@ cohere
 pinecone
 spacy
 tiktoken
+gradio
