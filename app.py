@@ -76,15 +76,15 @@ def handle_user_query(user_query):
     index_name = "manpages-rag"
     index = pc.Index(index_name)
 
-    chunks = retrieve_relevant_chunks(user_query, index, co)
-    answer = generate_answer(user_query, chunks, co)
+    index_matches = retrieve_relevant_chunks(user_query, index, co)
+    answer = generate_answer(user_query, index_matches, co)
     # pdb.set_trace()
     print(answer.message.content[0].text)
     raw_text = "".join([c.text for c in answer.message.content if c.type == "text"])
 
     sources = "\n".join(
         f"**{i+1}. From `{chunk['command']}` manpage:**\n{chunk['text'][:300]}..."
-        for i, chunk in enumerate(chunks)
+        for i, chunk in enumerate(index_matches)
     )
 
     return f"### Answer\n{raw_text}\n\n### Sources\n{sources}"
@@ -92,7 +92,6 @@ def handle_user_query(user_query):
 
 def main():
     nlp = spacy.load('en_core_web_sm')
-    encoder = tiktoken.get_encoding("cl100k_base")
     index_name = "manpages-rag"
 
     if index_name not in pc.list_indexes().names():

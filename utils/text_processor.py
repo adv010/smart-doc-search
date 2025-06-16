@@ -40,16 +40,3 @@ def chunk_manpages(nlp, texts, max_chunk_size=500):
                 "chunk_id": len(chunks)
             })
     return chunks
-
-
-def analyze_tokens(encoder,chunks):
-    for chunk in chunks:
-        chunk["token_count"] = len(encoder.encode(chunk["text"]))
-        # print(f"{chunk['command']} - Chunk {chunk['chunk_id']}: {chunk['token_count']} tokens")
-
-
-# def main():
-#     nlp = spacy.load('en_core_web_sm')
-
-# if __name__ == "__main__":
-#     main()
